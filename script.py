@@ -81,7 +81,7 @@ class Gui:
 
         ttk.Label(self.root, text='Speed:').grid(row=5,column=1, padx=10)
         self.slideSpeed=ttk.Scale(self.root,from_=300,to=1,
-                                 length=300,style='success.Horizontal.TScale',value=500,
+                                 length=300,style='success.Horizontal.TScale',value=300,
                                  command=lambda x:self.slideSpeedFunc())
         self.slideSpeed.grid(row=6,column=0,columnspan=3, padx=5)
 
@@ -93,7 +93,6 @@ class Gui:
         
     def bubble(self):
         speed = int(self.slideSpeedFunc())
-        print(speed)
         for i in range(len(arr)-1):
             for j in range(0, len(arr)-i-1):
                 if (arr[j] > arr[j + 1]):
@@ -101,13 +100,24 @@ class Gui:
 
                     self.displayArr(arr, ["blue" if x == j else "red" if x==j+1 else "#EFCB68" for x in range(len(arr))])
                     self.canvas.after(speed)
-                    #time.sleep(0.4)
 
         self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
 
     def insertion(self):
-        pass
+        speed = int(self.slideSpeedFunc())
+        for i in range(1, len(arr)):
+            key = arr[i]
 
+            j = i-1
+            while j>= 0 and key < arr[j]:
+                arr[j+1] = arr[j]
+                j -= 1
+
+                self.displayArr(arr, ["blue" if x == j else "red" if x==j+1 else "#EFCB68" for x in range(len(arr))])
+                self.canvas.after(speed)
+            arr[j+1] = key
+
+        self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
     def selection(self):
         pass
 
