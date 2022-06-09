@@ -119,8 +119,16 @@ class Gui:
 
         self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
     def selection(self):
-        pass
+        speed = int(self.slideSpeedFunc())
+        for i in range(len(arr)-1):
+     
+            for j in range(i+1, len(arr)):
+                if arr[i] > arr[j]:
+                    arr[i], arr[j] = arr[j], arr[i]
+                    self.displayArr(arr, ["blue" if x == j else "red" if x==j+1 else "#47E5BC" if x<i  else "#EFCB68" for x in range(len(arr))])
+                    self.canvas.after(speed)
 
+        self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
     def merge(self):
         pass
 
