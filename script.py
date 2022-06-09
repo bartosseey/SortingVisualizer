@@ -3,6 +3,7 @@ from tkinter import ttk
 from ttkbootstrap import *
 import time
 import random
+import threading
 
 
 
@@ -18,8 +19,8 @@ class Gui:
         self.root.grid_columnconfigure((0, 1, 2, 3, 4), weight=1)
 
         self.bubbleSort = ttk.Button(self.root, text='Bubble Sort', style='info.TButton',
-                                     padding=5, width=15,
-                                     command=self.bubble)
+                                     padding=5, width=15, command=self.bubble)
+                                     #command=threading.Thread(target=self.bubble).start)
         self.bubbleSort.grid(column=0, row=1, padx=5, pady=5)
 
         self.insertionSort = ttk.Button(self.root, text='Insertion Sort', style='info.TButton',
@@ -67,26 +68,42 @@ class Gui:
                                     command=self.shell)
         self.shellSort.grid(column=4, row=2, padx=5, pady=5) 
 
-        self.shuffleArray = ttk.Button(self.root, text='Shuffle', style='info.TButton',
+        self.createArray = ttk.Button(self.root, text='Create/Shuffle', style='info.TButton',
                                        padding=5, width=15,
-                                       command=self.shuffle)
-        self.shuffleArray.grid(column=3, row=3, padx=5, pady=30) 
+                                       command=self.create)
+        self.createArray.grid(column=3, row=3, padx=5, pady=30) 
 
-        ttk.Label(self.root, text='Speed & Array Size:').grid(row=3,column=1, padx=10)
-        self.arraySize=ttk.Scale(self.root,from_=5,to=100,
-                                 length=300,style='success.Horizontal.TScale',value=10,
-                                 command=lambda x:self.slide_function())
-        self.arraySize.grid(row=4,column=0,columnspan=3, padx=5)
+        ttk.Label(self.root, text='Array Size:').grid(row=3,column=1, padx=10)
+        self.slide=ttk.Scale(self.root,from_=15,to=100,
+                                 length=300,style='success.Horizontal.TScale',value=15,
+                                 command=lambda x:self.slideFunc())
+        self.slide.grid(row=4,column=0,columnspan=3, padx=5)
+
+        ttk.Label(self.root, text='Speed:').grid(row=5,column=1, padx=10)
+        self.slideSpeed=ttk.Scale(self.root,from_=300,to=1,
+                                 length=300,style='success.Horizontal.TScale',value=500,
+                                 command=lambda x:self.slideSpeedFunc())
+        self.slideSpeed.grid(row=6,column=0,columnspan=3, padx=5)
 
 
 
 
         self.canvas=Canvas(self.root, width=900, height=400, bg='yellow')
-        self.canvas.grid(row=6, padx=5, pady=10, columnspan=6)
-
-
+        self.canvas.grid(column=0 ,row=7, padx=5, pady=10, columnspan=6)
+        
     def bubble(self):
-        pass
+        speed = int(self.slideSpeedFunc())
+        print(speed)
+        for i in range(len(arr)-1):
+            for j in range(0, len(arr)-i-1):
+                if (arr[j] > arr[j + 1]):
+                    arr[j], arr[j + 1] = arr[j + 1], arr[j] 
+
+                    self.displayArr(arr, ["blue" if x == j else "red" if x==j+1 else "#EFCB68" for x in range(len(arr))])
+                    self.canvas.after(speed)
+                    #time.sleep(0.4)
+
+        self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
 
     def insertion(self):
         pass
@@ -115,8 +132,47 @@ class Gui:
     def shell(self):
         pass
 
-    def shuffle(self):
-        pass
+    def slideFunc(self):
+        slideValue = self.slide.get()
+        return slideValue
+    
+    def slideSpeedFunc(self):
+        slideSpeedValue = self.slideSpeed.get()
+        return slideSpeedValue
+
+    def create(self):
+        global arr
+        arr = []
+
+        array_size = int(self.slideFunc())
+        print(array_size)
+        range_begin = 10
+        range_end = 200
+
+        
+        for i in range(0, array_size):  
+            random_integer = random.randint(range_begin, range_end) #starting from a higher value and not 0 because the vertical bars wont be visible
+            arr.append(random_integer)
+
+        self.displayArr(arr, ["#EFCB68" for x in range(len(arr))])
+
+    def displayArr(self, arr, colorArray):
+        self.canvas.delete("all")
+        canvasWidth = 900
+        canvasHeight = 400
+        widthColumn = canvasWidth / (len(arr) + 1)
+        distanceBetween = 2
+        tempArr = [i / max(arr) for i in arr]
+
+        for i in range(len(tempArr)):
+            x1 = i * widthColumn + distanceBetween
+            y1 = canvasHeight - tempArr[i] * 350
+            x2 = (i + 1) * widthColumn 
+            y2 = canvasHeight
+            self.canvas.create_rectangle(x1, y1, x2, y2, fill=colorArray[i])
+
+        self.root.update_idletasks()
+
 
 if __name__=="__main__":
     window = Style(theme='cyborg').master
