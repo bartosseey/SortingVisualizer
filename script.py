@@ -90,6 +90,7 @@ class Gui:
 
         self.canvas=Canvas(self.root, width=900, height=400, bg='yellow')
         self.canvas.grid(column=0 ,row=7, padx=5, pady=10, columnspan=6)
+
         
     def bubble(self):
         speed = int(self.slideSpeedFunc())
@@ -118,6 +119,7 @@ class Gui:
             arr[j+1] = key
 
         self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
+
     def selection(self):
         speed = int(self.slideSpeedFunc())
         for i in range(len(arr)-1):
@@ -129,14 +131,82 @@ class Gui:
                     self.canvas.after(speed)
 
         self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
+
     def merge(self):
         pass
+        #problem with implementation 
 
     def quick(self):
-        pass
+        speed = int(self.slideSpeedFunc())
+        def partition(l, r, arr):
+            pivot, ptr = arr[r], l
+            for i in range(l, r):
+                if arr[i] <= pivot:
+                    arr[i], arr[ptr] = arr[ptr], arr[i]
+                    ptr += 1
+                    self.displayArr(arr, ["green" if x == i else "purple" if x==ptr else "#EFCB68" for x in range(len(arr))])
+                    self.canvas.after(speed)
+            arr[ptr], arr[r] = arr[r], arr[ptr]
+
+            return ptr
+        def quickSort(l, r, arr):
+            if len(arr) == 1:  
+                return arr
+            if l < r:
+                pi = partition(l, r, arr)
+                quickSort(l, pi-1, arr) 
+                quickSort(pi+1, r, arr)  
+                self.displayArr(arr, ["blue" if x == l else "red" if x==r else "#EFCB68" for x in range(len(arr))])
+                self.canvas.after(speed)
+            return(arr)
+        l = 0
+        r = len(arr)-1
+        quickSort(l, r, arr)
+        self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
+ 
+            
+        
+
 
     def radix(self):
-        pass
+        speed = int(self.slideSpeedFunc())
+        def countingSort(exp1):
+            n = len(arr)
+        
+            output = [0] * (n)
+        
+            count = [0] * (10)
+        
+            for i in range(0, n):
+                index = arr[i] // exp1
+                count[index % 10] += 1
+        
+
+            for i in range(1, 10):
+                count[i] += count[i - 1]
+        
+            i = n - 1
+            while i >= 0:
+                index = arr[i] // exp1
+                output[count[index % 10] - 1] = arr[i]
+                count[index % 10] -= 1
+                i -= 1
+
+            i = 0
+            for i in range(0, len(arr)):
+                arr[i] = output[i]
+                self.displayArr(arr, ["blue" if x == i else "#EFCB68" for x in range(len(arr))])
+                self.canvas.after(speed)
+        
+        def radixSort():
+            max1 = max(arr)
+            exp = 1
+            while max1 / exp > 1:
+                countingSort(exp)
+                exp *= 10
+        radixSort()
+        self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
+
 
     def heap(self):
         pass
