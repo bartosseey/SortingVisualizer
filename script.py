@@ -134,7 +134,7 @@ class Gui:
 
     def merge(self):
         pass
-        #problem with implementation 
+        #problems
 
     def quick(self):
         speed = int(self.slideSpeedFunc())
@@ -165,9 +165,6 @@ class Gui:
         self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
  
             
-        
-
-
     def radix(self):
         speed = int(self.slideSpeedFunc())
         def countingSort(exp1):
@@ -209,7 +206,40 @@ class Gui:
 
 
     def heap(self):
-        pass
+        speed = int(self.slideSpeedFunc())
+        def heapify(arr, n, i):
+
+            largest = i 
+            l = 2 * i + 1   
+            r = 2 * i + 2     
+
+            if l < n and arr[largest] < arr[l]:
+                largest = l
+        
+            if r < n and arr[largest] < arr[r]:
+                largest = r
+
+            if largest != i:
+                arr[i], arr[largest] = arr[largest], arr[i]  # swap
+                self.displayArr(arr, ["green" if x == i else "purple" if x==largest else "#EFCB68" for x in range(len(arr))])
+                self.canvas.after(speed)
+                heapify(arr, n, largest)
+        
+        
+        
+        def heapSort(arr):
+            n = len(arr)
+        
+            for i in range(n//2 - 1, -1, -1):
+                heapify(arr, n, i)
+        
+            for i in range(n-1, 0, -1):
+                arr[i], arr[0] = arr[0], arr[i] 
+                self.displayArr(arr, ["blue" if x == i else "#EFCB68" for x in range(len(arr))])
+                self.canvas.after(speed)
+                heapify(arr, i, 0)
+        heapSort(arr)
+        self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
 
     def counting(self):
         pass
