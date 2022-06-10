@@ -133,8 +133,46 @@ class Gui:
         self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
 
     def merge(self):
-        pass
-        #problems
+        speed = int(self.slideSpeedFunc())
+        def mergeArray(arr, begin, mid, end):
+            p = begin
+            q = mid + 1
+            tempArray = []
+
+            for i in range(begin, end+1):
+                if p > mid:
+                    tempArray.append(arr[q])
+                    q+=1
+                elif q > end:
+                    tempArray.append(arr[p])
+                    p+=1
+                elif arr[p] < arr[q]:
+                    tempArray.append(arr[p])
+                    p+=1
+                else:
+                    tempArray.append(arr[q])
+                    q+=1
+
+            for p in range(len(tempArray)):
+                arr[begin] = tempArray[p]
+                begin += 1
+
+        def mergeSort(arr, begin, end):
+            if begin < end:
+                mid = int((begin + end) / 2)
+                mergeSort(arr, begin, mid)
+                mergeSort(arr, mid+1, end)
+
+                mergeArray(arr, begin, mid, end)
+
+                self.displayArr(arr, ["red" if x >= begin and x < mid else "purple" if x == mid 
+                                else "green" if x > mid and x <=end else "#EFCB68" for x in range(len(arr))])
+                self.canvas.after(speed)
+
+        mergeSort(arr, 0, len(arr)-1)
+        self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
+
+        
 
     def quick(self):
         speed = int(self.slideSpeedFunc())
