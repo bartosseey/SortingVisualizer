@@ -53,21 +53,6 @@ class Gui:
                                    command=self.heap)
         self.heapSort.grid(column=3, row=1, padx=5, pady=5) 
 
-        self.countingSort = ttk.Button(self.root, text='Counting Sort', style='info.TButton',
-                                       padding=5, width=15,
-                                       command=self.counting)
-        self.countingSort.grid(column=3, row=2, padx=5, pady=5) 
-
-        self.bucketSort = ttk.Button(self.root, text='Bucket Sort', style='info.TButton',
-                                     padding=5, width=15,
-                                     command=self.bucket)
-        self.bucketSort.grid(column=4, row=1, padx=5, pady=5) 
-
-        self.shellSort = ttk.Button(self.root, text='Shell Sort', style='info.TButton',
-                                    padding=5, width=15,
-                                    command=self.shell)
-        self.shellSort.grid(column=4, row=2, padx=5, pady=5) 
-
         self.createArray = ttk.Button(self.root, text='Create/Shuffle', style='info.TButton',
                                        padding=5, width=15,
                                        command=self.create)
@@ -279,14 +264,7 @@ class Gui:
         heapSort(arr)
         self.displayArr(arr, ["#47E5BC" for x in range(len(arr))])
 
-    def counting(self):
-        pass
 
-    def bucket(self):
-        pass
-
-    def shell(self):
-        pass
 
     def slideFunc(self):
         slideValue = self.slide.get()
