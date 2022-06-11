@@ -9,9 +9,9 @@ Supported alghortims: <br />
 -radix sort <br />
 -heap sort <br />
 
-<br />
 ## Video
-<video src='https://youtu.be/jNuZJ6UJ9kM' width=180/>
+Watch visualization without downloading project.  <br />
+https://www.youtube.com/watch?v=jNuZJ6UJ9kM
 
 ## Setup
 1.
