@@ -1,9 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from ttkbootstrap import *
-import time
 import random
-import threading
 
 
 
